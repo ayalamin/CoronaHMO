@@ -1,0 +1,24 @@
+{
+  "name": "coronahmo",
+  "version": "1.0.0",
+  "description": "Corona management system for HMO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayalamin/CoronaHMO.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ayalamin/CoronaHMO/issues"
+  },
+  "homepage": "https://github.com/ayalamin/CoronaHMO#readme",
+  "dependencies": {
+    "express": "^4.18.3",
+    "mssql": "^10.0.2"
+  }
+}
