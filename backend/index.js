@@ -1,11 +1,14 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const port = 3000; 
+const userRouts = require('./routs/userRouts')
 
-// Define a route for the root URL
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
+app.use(bodyParser.json());
+
+app.use('/api/user', userRouts);
+
+
 
 // Start the server
 app.listen(port, () => {

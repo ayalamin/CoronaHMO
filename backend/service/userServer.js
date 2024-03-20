@@ -4,14 +4,25 @@ const db = require('./DB');
 async function getUserInformation(pas) {
     console.log("in getttttt")
     let data = await db.query(
-        `SELECT * FROM dbo.Members 
-    where id=${pas.id}`);
+    `SELECT 
+    Members.*,
+    CovidCases.RecoveryDate,
+    CovidCases.PositiveTestDate,
+    Vaccinations.Manufacturer,
+    Vaccinations.VaccinationDate
+    FROM 
+        Members
+    LEFT JOIN 
+        CovidCases ON Members.ID = CovidCases.MemberID
+    LEFT JOIN 
+        Vaccinations ON Members.ID = Vaccinations.MemberID; 
+     where Members.ID=${pas.id}`);
     return data;
 }
 
 async function getAllUser() {
-    console.log("jiiiiiiiiiiii")
-    const data = await db.query('select * from dbo.Members ');
+    console.log("in getAllUser in userServer")
+    const data = await db.query('select Members.ID, Members.FirstName, Members.LastName from dbo.Members ');
     return data;
 }
 
