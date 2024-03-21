@@ -1,17 +1,14 @@
 const config = {
-    user: 'Ayala',
-    password: '214260416',
-    server: 'localhost', 
-    database: 'CoronaHMO',
-    pool: {
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000
+    db: {
+        host: "localhost",
+        port: 3306, 
+        user: "root",
+        password: "1234",
+        database: 'CoronaHMO'  
     },
-    options: {
-        encrypt: false, 
-        trustServerCertificate: true
-    }
-};
+    listPerPage: 10,
+ };
 
-module.exports = config;
+ module.exports = config;
+
+
