@@ -65,8 +65,8 @@ const ViewMembers = ({ }) => {
                         <tr key={index}>
                             <td>{name.firstName}</td>
                             <td>{name.lastName}</td>
-                            <td><button onClick={() => goToDetails(name.id)}>פרטים</button></td>
-                            <td><button onClick={() => deletePatientData(name.id)}>מחיקה</button></td>
+                            <td><button onClick={() => goToDetails(name.id)}>Details</button></td>
+                            <td><button onClick={() => deletePatientData(name.id)}>deletion</button></td>
                         </tr>
                     ))}
                 </tbody>
