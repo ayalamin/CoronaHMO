@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
+
 
 const ViewMembers = ({ }) => {
+    debugger
     let navigate = useNavigate();
-    const [names, setnames] = useState(null);
-    const {
-        id,
-        firstName,
-        lastName,
-    } = names;
+    const [names, setnames] = useState();
+
 
     useEffect(() => {
+        debugger
         const fetchnamesData = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/user/`);
+                const response = await fetch(`http://localhost:8080/api/user`);
                 const data = await response.json();
                 setnames(data);
             } catch (error) {
@@ -29,13 +29,10 @@ const ViewMembers = ({ }) => {
     }
 
 
-    const goToDetails = (id) => {
-        navigate(`/PatientDetails/${id}`);
-    };
 
     const deletePatientData = async (ID) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/user/${ID}`, {
+            const response = await fetch(`http://localhost:8080/api/user/${ID}`, {
                 method: 'DELETE'
             });
 
@@ -47,7 +44,14 @@ const ViewMembers = ({ }) => {
         } catch (error) {
             console.error('Error:', error);
         }
+        navigate(`/ViewMembers`);
     };
+
+    const {
+        ID,
+        FirstName,
+        LastName,
+    } = names;
 
     return (
         <div>
@@ -63,10 +67,13 @@ const ViewMembers = ({ }) => {
                 <tbody>
                     {names.map((name, index) => (
                         <tr key={index}>
-                            <td>{name.firstName}</td>
-                            <td>{name.lastName}</td>
-                            <td><button onClick={() => goToDetails(name.id)}>Details</button></td>
-                            <td><button onClick={() => deletePatientData(name.id)}>deletion</button></td>
+                            <td>{name.FirstName}</td>
+                            <td>{name.LastName}</td>
+                            <td><Link to={{
+                                pathname: "/PatientDetails",
+                                state: { memberId:name.ID }
+                            }}>more details</Link></td>
+                            <td><button onClick={() => deletePatientData(name.ID)}>deletion</button></td>
                         </tr>
                     ))}
                 </tbody>

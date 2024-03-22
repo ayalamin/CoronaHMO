@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const userRouts = require('./routs/userRouts')
 const app = express();
-const port = 3000; 
+const port = 8080; 
 
 console.log("in index");
 

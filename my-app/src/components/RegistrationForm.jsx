@@ -1,16 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import '../CSS/RegistrationForm.css';
+import { useNavigate } from "react-router-dom";
+
 
 const RegistrationForm = () => {
+  let navigate = useNavigate();
+
   console.log("in RegistrationForm")
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [id, setId] = useState('');
-  const [address, setAddress] = useState('');
+  const [buildingNumber, setbuildingNumber] = useState('');
+  const [citi, setCiti] = useState('');
+  const [street, setStreet] = useState('');
   const [birthdate, setBirthdate] = useState('');
   const [phone, setPhone] = useState('');
   const [mobilePhone, setMobilePhone] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    debugger
+    const user = {
+      FirstName: firstName,
+      LastName: lastName,
+      MemberID: id,
+      Citi: citi,
+      Street: street,
+      BuildingNumber: buildingNumber,
+      BirthDate: birthdate,
+      Phone: phone,
+      MobilePhone: mobilePhone,
+      ProfilePicture: profilePicture
+    };
+    console.log(user);
+    addPatientData(user)
+  };
 
   const user = {
     firstName: '',
@@ -23,46 +49,30 @@ const RegistrationForm = () => {
     profilePicture: null
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission here
-  };
 
-  const Registrations = () => {
-    const user = {
-      firstName: firstName,
-      lastName: lastName,
-      id: id,
-      address: address,
-      birthdate: birthdate,
-      phone: phone,
-      mobilePhone: mobilePhone,
-      profilePicture: profilePicture
-    };
-    
-    console.log(user); 
-    addPatientData(user)
-  };
 
   const addPatientData = async (newPatientData) => {
     try {
-        const response = await fetch('http://localhost:3000/api/user', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newPatientData)
-        });
+      debugger
+      console.log("the date is: " + newPatientData.Birthdate);
+      const response = await fetch('http://localhost:8080/api/user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newPatientData)
+      });
 
-        if (!response.ok) {
-            throw new Error('Failed to add patient data');
-        }
-        console.log('Patient data added successfully!');
-        alert("Patient data added successfully");        
+      if (!response.ok) {
+        throw new Error('Failed to add patient data');
+      }
+      console.log('Patient data added successfully!');
+      alert("Patient data added successfully");
     } catch (error) {
-        console.error('Error:', error);
+      console.error('Error:', error);
     }
-};
+    navigate(`/ViewMembers`);
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -79,8 +89,16 @@ const RegistrationForm = () => {
         <input type="text" id="id" value={id} onChange={(e) => setId(e.target.value)} />
       </div>
       <div>
-        <label htmlFor="address">Address:</label>
-        <input type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+        <label htmlFor="citi">Citi:</label>
+        <input type="text" id="citi" value={citi} onChange={(e) => setCiti(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="street">Street:</label>
+        <input type="text" id="street" value={street} onChange={(e) => setStreet(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="building number">Building number:</label>
+        <input type="text" id="buildingNumber" value={buildingNumber} onChange={(e) => setbuildingNumber(e.target.value)} />
       </div>
       <div>
         <label htmlFor="birthdate">Birthdate:</label>
@@ -98,7 +116,7 @@ const RegistrationForm = () => {
         <label htmlFor="profilePicture">Profile Picture:</label>
         <input type="file" id="profilePicture" onChange={(e) => setProfilePicture(e.target.files[0])} />
       </div>
-      <button type="submit" onClick={Registrations}>Submit</button>
+      <button type="submit" onClick={handleSubmit}>Submit</button>
     </form>
   );
 };

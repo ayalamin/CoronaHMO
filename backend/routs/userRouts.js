@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     console.log(req.body);
     try {
-        console.log("in userRouts-post "+req.body.lastName);
+        console.log("in userRouts-post "+ req.body.LastName);
         let result =   await userServer.addUser(req.body);
         res.send(result);
     }

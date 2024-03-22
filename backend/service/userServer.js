@@ -39,12 +39,16 @@ async function getUserInformation(pas) {
         throw err;
     }
 }
+
 async function addUser(userData) {
     try {
         const { MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo } = userData;
+        console.log("in adduser in userserver"+ BirthDate );
+        // const parsedBirthDate = new Date(BirthDate);
+        // const formattedBirthDate = parsedBirthDate.toISOString();
 
         console.log("in adduser in userserver");
-
+debugger
         const query = `
             INSERT INTO CoronaHMO.Members (MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo) 
             VALUES ('${MemberID}', '${FirstName}', '${LastName}', '${AddressCity}', '${AddressStreet}', '${AddressNumber}', '${BirthDate}', '${Phone}', '${MobilePhone}', '${Photo}')
@@ -58,6 +62,9 @@ async function addUser(userData) {
         throw err;
     }
 }
+
+
+  
 
 async function updateUser(userId, userData) {
     const { FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo } = userData;
