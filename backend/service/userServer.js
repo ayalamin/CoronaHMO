@@ -19,11 +19,11 @@ async function getUserInformation(pas) {
     try {
         const data = await sql.query(`
             SELECT 
-                Members.*,
-                CovidCases.DateOfRecovery AS RecoveryDate,
-                CovidCases.DateOfAttachment AS PositiveTestDate,
-                Vaccinations.Manufacturer,
-                Vaccinations.DateReceived AS VaccinationDate
+            Members.*,
+            CovidCases.DateOfRecovery AS RecoveryDate,
+            CovidCases.DateOfAttachment AS PositiveTestDate,
+            Vaccinations.Manufacturer,
+            Vaccinations.DateReceived AS VaccinationDate
             FROM 
                 Members
             LEFT JOIN 
@@ -31,8 +31,9 @@ async function getUserInformation(pas) {
             LEFT JOIN 
                 Vaccinations ON Members.ID = Vaccinations.MemberID
             WHERE 
-                Members.ID = ?
-        `, [pas.id]);
+                Members.ID = 18
+        `);
+        console.log("in get after query the data is:" + data);
         return data;
     } catch (err) {
         console.error('Error fetching users', err);
@@ -43,7 +44,7 @@ async function getUserInformation(pas) {
 async function addUser(userData) {
     try {
         const { MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo } = userData;
-        console.log("in adduser in userserver"+ BirthDate );
+        console.log("in adduser in userserver" + BirthDate );
         // const parsedBirthDate = new Date(BirthDate);
         // const formattedBirthDate = parsedBirthDate.toISOString();
 

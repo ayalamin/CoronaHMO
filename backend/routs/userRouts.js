@@ -16,6 +16,7 @@ router.get('/:id', async (req, res) => {
     try {
         let result = await userServer.getUserInformation(req.params);
         res.send(result); 
+        console.log("in gett after send");
     }
     catch (e) {
         console.error("the error is: " + e);
