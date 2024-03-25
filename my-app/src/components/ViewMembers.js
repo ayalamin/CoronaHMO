@@ -85,12 +85,13 @@
 // };
 
 // export default ViewMembers;
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import '../CSS/ViewMembers.css';
+// import PatientDetails from './PatientDetails'
 
-const ViewMembers = ({ }) => {
+const ViewMembers = () => {
     const navigate = useNavigate();
     const [names, setNames] = useState([]);
 
@@ -133,26 +134,34 @@ const ViewMembers = ({ }) => {
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th></th> {/* תיאור הכפתור */}
-                        <th></th> {/* תיאור הכפתור */}
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
+                 
                     {names.map((name, index) => (
+                       
                         <tr key={index}>
                             <td>{name.FirstName}</td>
                             <td>{name.LastName}</td>
                             <td>
-                                <Link to={{
-                                    pathname: `/PatientDetails`,
-                                    state: { ID: name.ID }
-                                }}>More Details</Link>
+                                {console.log(name.ID)}
+                                <Link to="/PatientDetails" state={name.ID}>Link Text</Link>
+                                {/* <Link to={{
+                                    pathname: '/PatientDetails',
+                                   state: { ID: name.ID }
+                                }}
+                                >More Details</Link> */}
                             </td>
                             <td>
                                 <button onClick={() => deletePatientData(name.ID)}>Delete</button>
                             </td>
                         </tr>
+                     
+                        
                     ))}
+                 
                 </tbody>
             </table>
         </div>

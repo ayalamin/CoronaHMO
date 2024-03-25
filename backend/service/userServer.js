@@ -15,7 +15,7 @@ async function getAllUser() {
 }
 
 async function getUserInformation(pas) {
-    console.log("in getttttt");
+    console.log("in getttttt the pas is: "+ pas);
     try {
         const data = await sql.query(`
             SELECT 
@@ -31,7 +31,7 @@ async function getUserInformation(pas) {
             LEFT JOIN 
                 Vaccinations ON Members.ID = Vaccinations.MemberID
             WHERE 
-                Members.ID = 18
+                Members.ID = '${pas}'
         `);
         console.log("in get after query the data is:" + data);
         return data;
@@ -43,16 +43,15 @@ async function getUserInformation(pas) {
 
 async function addUser(userData) {
     try {
+        const formattedBirthDate = new Date(userData.BirthDate).toISOString().slice(0, 10);
+
         const { MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo } = userData;
         console.log("in adduser in userserver" + BirthDate );
-        // const parsedBirthDate = new Date(BirthDate);
-        // const formattedBirthDate = parsedBirthDate.toISOString();
+      
 
-        console.log("in adduser in userserver");
-debugger
         const query = `
             INSERT INTO CoronaHMO.Members (MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo) 
-            VALUES ('${MemberID}', '${FirstName}', '${LastName}', '${AddressCity}', '${AddressStreet}', '${AddressNumber}', '${BirthDate}', '${Phone}', '${MobilePhone}', '${Photo}')
+            VALUES ('${MemberID}', '${FirstName}', '${LastName}', '${AddressCity}', '${AddressStreet}', '${AddressNumber}', '${formattedBirthDate}', '${Phone}', '${MobilePhone}', '${Photo}')
         `;
 
         const result = await sql.query(query);
@@ -70,7 +69,9 @@ debugger
 async function updateUser(userId, userData) {
     const { FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo } = userData;
     try {
-        console.log('in update in userserver');
+        const formattedBirthDate = new Date(BirthDate).toISOString().slice(0, 10);
+
+        console.log('in update in userserver ' + BirthDate);
         const query = `
             UPDATE CoronaHMO.Members 
             SET 
@@ -79,7 +80,7 @@ async function updateUser(userId, userData) {
                 AddressCity = '${AddressCity}',
                 AddressStreet = '${AddressStreet}',
                 AddressNumber = '${AddressNumber}',
-                BirthDate = '${BirthDate}',
+                BirthDate = '${formattedBirthDate}',
                 Phone = '${Phone}',
                 MobilePhone = '${MobilePhone}',
                 Photo = '${Photo}' 

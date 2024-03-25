@@ -14,7 +14,9 @@ const userServer = require('../service/userServer');
 
 router.get('/:id', async (req, res) => {
     try {
-        let result = await userServer.getUserInformation(req.params);
+        console.log("in gett after send , the params is: "+ req.params.id);
+        let result = await userServer.getUserInformation(req.params.id);
+
         res.send(result); 
         console.log("in gett after send");
     }
