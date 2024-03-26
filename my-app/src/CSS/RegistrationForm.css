@@ -40,7 +40,8 @@
     border: 1px solid #ccc;
     border-radius: 5px;
   }
-  
+
+
   .registration-form label {
     display: block;
     margin-bottom: 5px;
@@ -56,8 +57,8 @@
   }
   
   .registration-form button {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #45a049; 
+       color: #fff;
     border: none;
     border-radius: 3px;
     padding: 10px 20px;
@@ -65,8 +66,7 @@
   }
   
   .registration-form button:hover {
-    background-color: #0056b3;
-  }
+    background-color: #45a049;  }
   body {
     background-color: #f0f0f0; /* צבע רקע לגוף המסמך */
   }
@@ -95,8 +95,8 @@
   }
   
   .registration-form button {
-    background-color: #007bff;
-    color: #fff;
+ background-color: #45a049;
+     color: #fff;
     border: none;
     border-radius: 3px;
     padding: 10px 20px;
@@ -108,3 +108,6 @@
     background-color: #0056b3;
   }
   
+  .registration-form .form-group {
+    margin-bottom: 20px;
+  }

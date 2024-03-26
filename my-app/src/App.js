@@ -6,15 +6,11 @@ import RegistrationForm from "./components/RegistrationForm";
 import Modal from './components/Modal'
 import PatientDetails from './components/PatientDetails'
 import AddVaccine from './components/addVaccine'
-
+import DisplayImage from './components/displayImage'
 const App = () => {
   console.log("in App")
 
-  // const routes = [
-  //   { path: "/", component: <HomePage/> },
-  //   { path: "/ViewMembers", component: <ViewMembers/> },
-  //   { path: "/MemberDetails", component: <MemberDetails/> },
-  // ];
+  
 
   return (
     // <Router>
@@ -25,6 +21,7 @@ const App = () => {
           <Route  path= "/Modal" element={ <Modal/> }/>
           <Route  path= "/PatientDetails" element={ <PatientDetails/> }  />
           <Route  path= "/AddVaccine" element={ <AddVaccine/> }  />
+          <Route  path= "/displayImage" element={ <DisplayImage/> }  />
 
       </Routes>
     // </Router>

@@ -42,6 +42,34 @@ router.get('/vaccines/count/:id', async (req, res) => {
     }
 });
 
+router.get('/vaccines/how', async (req, res) => {
+    try {
+        console.log("in unvaccinated");
+        console.log("The id received is:");
+        let result = await userServer.getCountUnVaccines(); 
+        res.send(result); 
+        console.log("in unvaccinated after send");
+    }
+    catch (e) {
+        console.error("the error is: " + e);
+        res.status(500).send({ error: "An error occurred while get the user." });
+    }
+});
+
+router.get('/count', async (req, res) => {
+    try {
+        console.log("in month");
+        console.log("The id received is:");
+        let result = await userServer.getMonth(); 
+        res.send(result); 
+        console.log("in unvaccinated after send");
+    }
+    catch (e) {
+        console.error("the error is: " + e);
+        res.status(500).send({ error: "An error occurred while get the user." });
+    }
+});
+
 router.post('/', async (req, res) => {
     console.log(req.body);
     try {

@@ -30,11 +30,11 @@
   
   .view-members a {
     text-decoration: none;
-    color: blue;
+    color: #45a049;
   }
   
   .view-members button {
-    background-color: #f44336;
+    background-color: #45a049;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -43,6 +43,6 @@
   }
   
   .view-members button:hover {
-    background-color: #d32f2f;
+    background-color: #45a049;
   }
   

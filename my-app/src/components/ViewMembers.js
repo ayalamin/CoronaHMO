@@ -4,6 +4,7 @@ import '../CSS/ViewMembers.css';
 
 const ViewMembers = () => {
     const [names, setNames] = useState([]);
+    const [amountOfPatients, setAmountOfPatients] = useState(null)
 
     useEffect(() => {
         const fetchNamesData = async () => {
@@ -19,6 +20,22 @@ const ViewMembers = () => {
         fetchNamesData();
     }, []);
 
+    const UnvaccinatedPatients = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/user/vaccines/how`);
+            const data = await response.json();
+            console.log("the number is: "+ JSON.stringify(data[0]))
+            const count = data[0]['COUNT(*)'];
+            setAmountOfPatients(count);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    const MonthlyPatientChart = async () => {
+
+    }
+
     const deletePatientData = async (ID) => {
         try {
             const response = await fetch(`http://localhost:8080/api/user/${ID}`, {
@@ -30,7 +47,7 @@ const ViewMembers = () => {
             }
             console.log('Patient data deleted successfully!');
             alert('Patient data deleted successfully!');
-            window.location.reload(); 
+            window.location.reload();
         } catch (error) {
             console.error('Error:', error);
         }
@@ -50,9 +67,9 @@ const ViewMembers = () => {
                     </tr>
                 </thead>
                 <tbody>
-                 
+
                     {names.map((name, index) => (
-                       
+
                         <tr key={index}>
                             <td>{name.FirstName}</td>
                             <td>{name.LastName}</td>
@@ -67,14 +84,24 @@ const ViewMembers = () => {
                             </td>
                             <td>
                                 <button onClick={() => deletePatientData(name.ID)}>Delete</button>
+                            
                             </td>
                         </tr>
-                     
-                        
+
+
                     ))}
-                 
+
                 </tbody>
             </table>
+            <div>
+            <br/>
+            <button onClick={() => UnvaccinatedPatients()}>Unvaccinated patients</button>
+            <div>{amountOfPatients && <h5>HMO members who are not vaccinated:  {amountOfPatients}</h5> }</div>
+            <div>
+            <br/>
+            <button onClick={() => MonthlyPatientChart()}>Monthly patient chart</button>
+            </div>
+            </div>
         </div>
     );
 };

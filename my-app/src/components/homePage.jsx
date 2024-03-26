@@ -22,11 +22,11 @@ const HomePage = () => {
         <div style={{ width: '30%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {/* <Modal /> */}
           <Link to="/RegistrationForm" style={{ textDecoration: 'none', color: 'white' }}>
-            <button style={{ padding: '10px', border: 'none', borderRadius: '5px', backgroundColor: 'blue', color: 'white' }}>Sign up
+            <button style={{ padding: '10px', border: 'none', borderRadius: '5px', backgroundColor: '#45a049', color: 'white' }}>Sign up
             </button>
           </Link>
           <Link to="/ViewMembers" style={{ textDecoration: 'none', color: 'white' }}>
-            <button style={{ padding: '10px', border: 'none', borderRadius: '5px', backgroundColor: 'blue', color: 'white' }}>View Health Fund Members
+            <button style={{ padding: '10px', border: 'none', borderRadius: '5px',  backgroundColor: '#45a049', color: 'white' }}>View Health Fund Members
             </button>
           </Link>
         </div>

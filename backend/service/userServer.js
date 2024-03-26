@@ -31,6 +31,41 @@ async function getCountVaccines(pas) {
     }
 }
 
+async function getCountUnVaccines() {
+    console.log("in getCountVaccines in userServer")
+    try {
+        const result = await sql.query(`
+        SELECT COUNT(*) AS count
+        FROM CoronaHMO.Members
+        WHERE MemberID NOT IN (SELECT DISTINCT MemberID FROM CoronaHMO.Vaccinations);
+         `);
+        console.log("in getCountUnVaccines afterr" + result)
+
+        return result;
+    } catch (err) {
+        console.error('Error fetching users', err);
+        throw err;
+    }
+}
+
+async function getMonth() {
+    console.log("in getMonth in userServer")
+    try {
+        const result = await sql.query(`
+        SELECT DATE(DateOfAttachment) AS day, COUNT(*) AS active_patients
+        FROM CoronaHMO.CovidCases
+        WHERE DateOfAttachment BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW()
+        GROUP BY DATE(DateOfAttachment)
+        ORDER BY DATE(DateOfAttachment);
+         `);
+        console.log("in getMonth in userserver" + result)
+        return result;
+    } catch (err) {
+        console.error('Error fetching users', err);
+        throw err;
+    }
+}
+
 async function getUserInformation(pas) {
     console.log("in getttttt the pas is: " + pas);
     try {
@@ -106,12 +141,12 @@ async function addVaccine(vaccineData) {
 
 
 async function updateUser(userId, userData) {
-    const { FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo } = userData;
+    const { MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo, PositiveTestDate, RecoveryDate } = userData;
     try {
         const formattedBirthDate = new Date(BirthDate).toISOString().slice(0, 10);
 
         console.log('in update in userserver ' + BirthDate);
-        const query = `
+        let query = `
             UPDATE CoronaHMO.Members 
             SET 
                 FirstName = '${FirstName}',
@@ -125,9 +160,34 @@ async function updateUser(userId, userData) {
                 Photo = '${Photo}' 
             WHERE ID = ${userId}
         `;
-
         const result = await sql.query(query);
         console.log('User updated successfully');
+        if (PositiveTestDate) {
+            if (RecoveryDate) {
+                query = `
+                INSERT INTO CoronaHMO.CovidCases (MemberID, DateOfAttachment , DateOfRecovery ) 
+                VALUES ('${MemberID}', '${PositiveTestDate}', '${RecoveryDate}')
+            `;
+            }
+            else {
+                query = `
+                INSERT INTO CoronaHMO.CovidCases (MemberID , DateOfAttachment ) 
+                VALUES ('${MemberID}', '${PositiveTestDate}')
+            `;
+            }
+            await sql.query(query);
+            console.log('CovidCases inserted successfully');
+        }
+        else{
+            if (RecoveryDate) {
+                query = `
+                UPDATE CoronaHMO.CovidCases 
+                SET 
+                DateOfRecovery = '${RecoveryDate}',
+                WHERE MemberID = ${MemberID}
+                `;
+            }
+        }
         return result;
     } catch (err) {
         console.error('Error updating user', err);
@@ -168,4 +228,6 @@ module.exports = {
     deleteUser,
     addVaccine,
     getCountVaccines,
+    getCountUnVaccines,
+    getMonth,
 }

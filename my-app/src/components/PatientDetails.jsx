@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import '../CSS/PatientDetails.css';
 import { useLocation } from 'react-router-dom';
-
+import DisplayImage from './displayImage'
 import AddVaccine from './addVaccine';
 
 const PatientDetails = () => {
@@ -12,8 +12,7 @@ const PatientDetails = () => {
     const location = useLocation();
     const [isEditing, setIsEditing] = useState(false);
 
-    // const { name } = location.state || {};
-    // const { ID } = name || {};
+
     const ID = location.state;
     console.log("the state is: " + location.state)
     console.log("the member Id is: " + ID)
@@ -50,15 +49,12 @@ const PatientDetails = () => {
                 setBirthDate(data[0].BirthDate);
                 setPhone(data[0].Phone);
                 setMobilePhone(data[0].MobilePhone);
-                setCheckupDate(data[0].CheckupDate);
                 setRecoveryDate(data[0].RecoveryDate);
                 setVaccines(data[0].vaccines);
                 setPhoto(data[0].Photo);
                 setPositiveTestDate(data[0].PositiveTestDate);
                 setIsLoading(false);
                 console.log("the FirstName is: ", data.FirstName);
-
-                // setPatient(data);
             } catch (error) {
                 console.error('Error:', error);
                 setError(error);
@@ -69,6 +65,9 @@ const PatientDetails = () => {
         fetchPatientData();
         setIsEditing(false);
     }, []);
+
+
+
 
     const handleEdit = () => {
         debugger
@@ -84,8 +83,55 @@ const PatientDetails = () => {
     };
 
     const editing = () => {
+        console.log("in add editing");
+
+
+        if (!/^[a-zA-Z]+$/.test(FirstName)) {
+            alert("First name must contain only letters.");
+            return;
+        }
+
+        if (!/^[a-zA-Z]+$/.test(LastName)) {
+            alert("Last name must contain only letters.");
+            return;
+        }
+
+
+
+        if (Phone.length < 7 || Phone.length > 9 || !/^\d+$/.test(Phone)) {
+            alert("Phone number must contain between 7 and 9 digits.");
+            return;
+        }
+
+        if (MobilePhone.length !== 10 || !/^\d+$/.test(MobilePhone)) {
+            alert("Mobile phone number must contain exactly 10 digits.");
+            return;
+        }
+
+        const today = new Date();
+        const selectedDate = new Date(BirthDate);
+        const recoveryDate = new Date(RecoveryDate);
+        const positiveTestDate = new Date(PositiveTestDate);
+
+        if (selectedDate > today) {
+            alert("Birthdate must be before today's date.");
+            return;
+        }
+        if (recoveryDate > today) {
+            alert("recoveryDate must be before today's date.");
+            return;
+        }
+        if (recoveryDate > today) {
+            alert("recoveryDate must be before today's date.");
+            return;
+        }
+        if (positiveTestDate > today) {
+            alert("positiveTestDate must be before today's date.");
+            return;
+        }
         setShowAddVaccine(false);
         const user = {
+            MemberID: MemberID,
             FirstName: FirstName,
             LastName: LastName,
             AddressCity: AddressCity,
@@ -94,13 +140,16 @@ const PatientDetails = () => {
             BirthDate: BirthDate,
             Phone: Phone,
             MobilePhone: MobilePhone,
-            Photo: Photo
+            Photo: Photo,
+            PositiveTestDate: PositiveTestDate,
+            RecoveryDate: RecoveryDate
         };
         editPatientData(user);
     };
 
     const editPatientData = async (updatedPatientData) => {
         try {
+            console.log("in editPatientData")
             const response = await fetch(`http://localhost:8080/api/user/${ID}`, {
                 method: 'PUT',
                 headers: {
@@ -214,7 +263,7 @@ const PatientDetails = () => {
                                 <input
                                     type="text"
                                     id="Phone"
-                                    value={BirthDate}
+                                    value={Phone}
                                     onChange={(e) => setPhone(e.target.value)}
                                 />
                             </>
@@ -242,7 +291,7 @@ const PatientDetails = () => {
                             <>
                                 <label htmlFor="BirthDate">BirthDate:</label>
                                 <input
-                                    type="date"
+                                    type="text"
                                     id="BirthDate"
                                     value={BirthDate}
                                     onChange={(e) => setBirthDate(e.target.value)}
@@ -252,47 +301,12 @@ const PatientDetails = () => {
                             <><strong>BirthDate:</strong> {BirthDate}</>
                         )}
                     </div>
-
-                    <div className="details">
-                        {isEditing ? (
-                            <>
-                                <label htmlFor="CheckupDate">Checkup Date:</label>
-                                <input
-                                    type="date"
-                                    id="CheckupDate"
-                                    value={CheckupDate}
-                                    onChange={(e) => setCheckupDate(e.target.value)}
-                                />
-                            </>
-                        ) : (
-                            <>  {CheckupDate && (
-                                <> <strong>Checkup Date:</strong> {CheckupDate} </>
-                            )}</>
-                        )}
-                    </div>
-                    <div className="details">
-                        {isEditing ? (
-                            <>
-                                <label htmlFor="RecoveryDate">Recovery Date:</label>
-                                <input
-                                    type="date"
-                                    id="RecoveryDate"
-                                    value={RecoveryDate}
-                                    onChange={(e) => setRecoveryDate(e.target.value)}
-                                />
-                            </>
-                        ) : (
-                            <>    {RecoveryDate && (
-                                <><strong>Recovery Date:</strong> {RecoveryDate} </>
-                            )}</>
-                        )}
-                    </div>
                     <div className="details">
                         {isEditing ? (
                             <>
                                 <label htmlFor="PositiveTestDate">Positive Test Date:</label>
                                 <input
-                                    type="date"
+                                    type="text"
                                     id="PositiveTestDate"
                                     value={PositiveTestDate}
                                     onChange={(e) => setPositiveTestDate(e.target.value)}
@@ -309,23 +323,51 @@ const PatientDetails = () => {
                         )}
                     </div>
                     <div className="details">
-                        {isEditing ? (
+                        {isEditing && PositiveTestDate ? (
                             <>
-                                <label htmlFor="ProfilePicture">Profile Picture:</label>
+                                <label htmlFor="RecoveryDate">Recovery Date:</label>
                                 <input
                                     type="text"
-                                    id="ProfilePicture"
-                                    value={Photo}
-                                    onChange={(e) => setCheckupDate(e.target.value)}
+                                    id="RecoveryDate"
+                                    value={RecoveryDate}
+                                    onChange={(e) => setRecoveryDate(e.target.value)}
                                 />
+                            </>
+                        ) : (
+                            <>    {RecoveryDate && (
+                                <><strong>Recovery Date:</strong> {RecoveryDate} </>
+                            )}</>
+                        )}
+                    </div>
+
+                    <div className="details">
+                        {isEditing ? (
+
+                            <>
+                                {Photo && (
+                                    <>
+                                        <label htmlFor="ProfilePicture">Profile Picture:</label>
+                                        <input
+                                            type="text"
+                                            id="ProfilePicture"
+                                            value={Photo}
+                                            onChange={(e) => setPhoto(e.target.value)}
+                                        />
+                                    </>
+                                )}
                             </>
                         ) : (
                             <>
                                 {Photo && (
                                     <>
-                                        <strong>Profile Picture:</strong>
-                                        <img src={Photo} alt="Photo" />
+                                        {/* <strong>Profile Picture:</strong>
+                                        <img src={Photo} alt="Photo" /> */}
+                                        <DisplayImage props={Photo.data} />
                                     </>
+
+
+
+
                                 )}
                             </>
                         )}
@@ -371,7 +413,7 @@ const PatientDetails = () => {
                         )}
 
                     </div>
-                  
+
                     {/* {isEditing && (
                         <>
                             <div className="details">

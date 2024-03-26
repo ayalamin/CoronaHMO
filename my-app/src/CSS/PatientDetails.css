@@ -1,79 +1,77 @@
-/* .patient-details {
-    max-width: 800px;
+.patient-details {
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-}
-
-.patient-details h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.patient-details .details {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .details {
     margin-bottom: 10px;
-}
-
-.patient-details img {
+  }
+  
+  .details label {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .details input[type="text"],
+  .details input[type="date"] {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+  }
+  
+  .details input[type="date"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  .profile-picture img {
     max-width: 200px;
-    max-height: 200px;
+    height: auto;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .profile-picture label {
     display: block;
-    margin: 10px auto;
-}
-
-.patient-details .vaccines-table {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .vaccines-table {
     width: 100%;
     border-collapse: collapse;
-}
-
-.patient-details .vaccines-table th,
-.patient-details .vaccines-table td {
-    border: 1px solid #ddd;
+    margin-top: 20px;
+    width: 100%;
+    margin-bottom: 20px; 
+  }
+  
+  .vaccines-table th,
+  .vaccines-table td {
+    border: 1px solid #ccc;
     padding: 8px;
-}
-
-.patient-details .vaccines-table th {
+    text-align: left;
+  }
+  
+  .vaccines-table th {
     background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-.patient-details .vaccines-table td {
-    text-align: center;
-}
-
-.patient-details button {
-    background-color: #4CAF50;
+  }
+  
+  .details button {
+    background-color: #4caf50;
     color: white;
-    border: none;
     padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    border-radius: 8px;
-}
-
-.patient-details button:hover {
+    margin-right: 10px;
+  }
+  
+  .details button:hover {
     background-color: #45a049;
-} */
-/* סגנון רכיב המידע (על הצד השמאלי) */
-.patient-info {
-    width: 60%;
-    float: left;
-    padding: 20px;
-    background-color: #f0f0f0;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* סגנון טבלת החיסונים (על הצד הימני) */
-.vaccines-table-container {
-    width: 35%;
-    float: right;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-left: 20px;
-}
+  }
+  
