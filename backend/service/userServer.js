@@ -14,24 +14,45 @@ async function getAllUser() {
     }
 }
 
+async function getCountVaccines(pas) {
+    console.log("in getCountVaccines in userServer")
+    try {
+        const result = await sql.query(`
+        SELECT COUNT(*) AS VaccineCount
+        FROM CoronaHMO.Vaccinations
+        WHERE MemberID = '${pas}';
+         `);
+        console.log("in getCountVaccines afterr" + result)
+
+        return result;
+    } catch (err) {
+        console.error('Error fetching users', err);
+        throw err;
+    }
+}
+
 async function getUserInformation(pas) {
-    console.log("in getttttt the pas is: "+ pas);
+    console.log("in getttttt the pas is: " + pas);
     try {
         const data = await sql.query(`
             SELECT 
             Members.*,
             CovidCases.DateOfRecovery AS RecoveryDate,
             CovidCases.DateOfAttachment AS PositiveTestDate,
-            Vaccinations.Manufacturer,
-            Vaccinations.DateReceived AS VaccinationDate
-            FROM 
-                Members
-            LEFT JOIN 
-                CovidCases ON Members.ID = CovidCases.MemberID
-            LEFT JOIN 
-                Vaccinations ON Members.ID = Vaccinations.MemberID
-            WHERE 
-                Members.ID = '${pas}'
+            JSON_OBJECT(
+                'manufacturer', JSON_ARRAYAGG(Vaccinations.Manufacturer),
+                'dateReceived', JSON_ARRAYAGG(Vaccinations.DateReceived)
+            ) AS vaccines
+        FROM 
+            CoronaHMO.Members
+        LEFT JOIN 
+            CovidCases ON Members.MemberID = CovidCases.MemberID
+        LEFT JOIN 
+            Vaccinations ON Members.MemberID = Vaccinations.MemberID
+        WHERE 
+            Members.ID = '${pas}'
+        GROUP BY
+            Members.MemberID;
         `);
         console.log("in get after query the data is:" + data);
         return data;
@@ -46,8 +67,8 @@ async function addUser(userData) {
         const formattedBirthDate = new Date(userData.BirthDate).toISOString().slice(0, 10);
 
         const { MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo } = userData;
-        console.log("in adduser in userserver" + BirthDate );
-      
+        console.log("in adduser in userserver" + BirthDate);
+
 
         const query = `
             INSERT INTO CoronaHMO.Members (MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo) 
@@ -63,8 +84,26 @@ async function addUser(userData) {
     }
 }
 
+async function addVaccine(vaccineData) {
+    try {
+        const { MemberID, DateReceived, Manufacturer } = vaccineData;
+        const formattedBirthDate = new Date(vaccineData.DateReceived).toISOString().slice(0, 10);
 
-  
+
+        console.log("in addVaccine in userserver");
+        const query = `
+            INSERT INTO CoronaHMO.Vaccinations (MemberID, DateReceived, Manufacturer) 
+            VALUES ('${MemberID}',  '${formattedBirthDate}', '${Manufacturer}')
+        `;
+        const result = await sql.query(query);
+        console.log('vaccine added successfully');
+        return result;
+    } catch (err) {
+        console.error('Error adding vaccine', err);
+        throw err;
+    }
+}
+
 
 async function updateUser(userId, userData) {
     const { FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo } = userData;
@@ -99,12 +138,20 @@ async function updateUser(userId, userData) {
 
 async function deleteUser(ID) {
     try {
-        console.log('in delete uder id ='+ID);
+        console.log('in delete uder id =' + ID);
+        const result2 = await sql.query(`
+        DELETE FROM Vaccinations
+        WHERE MemberID = (SELECT MemberID FROM Members WHERE ID = ${ID})
+        `);
 
+        await sql.query(`
+        DELETE FROM CovidCases
+        WHERE MemberID = (SELECT MemberID FROM Members WHERE ID = ${ID})
+        `);
         const result = await sql.query(`
         DELETE FROM Members 
         WHERE ID = ${ID}
-    `);
+        `);
         console.log('User deleted successfully');
         return result;
     } catch (err) {
@@ -119,4 +166,6 @@ module.exports = {
     addUser,
     updateUser,
     deleteUser,
+    addVaccine,
+    getCountVaccines,
 }

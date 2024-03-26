@@ -1,4 +1,4 @@
-.patient-details {
+/* .patient-details {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -56,4 +56,24 @@
 
 .patient-details button:hover {
     background-color: #45a049;
+} */
+/* סגנון רכיב המידע (על הצד השמאלי) */
+.patient-info {
+    width: 60%;
+    float: left;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* סגנון טבלת החיסונים (על הצד הימני) */
+.vaccines-table-container {
+    width: 35%;
+    float: right;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: 20px;
 }

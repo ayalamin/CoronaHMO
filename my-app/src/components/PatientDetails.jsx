@@ -1,10 +1,9 @@
 
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import '../CSS/PatientDetails.css';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
+import AddVaccine from './addVaccine';
 
 const PatientDetails = () => {
 
@@ -15,9 +14,9 @@ const PatientDetails = () => {
 
     // const { name } = location.state || {};
     // const { ID } = name || {};
-    const memberId = location.state;
+    const ID = location.state;
     console.log("the state is: " + location.state)
-    console.log("the member Id is: " + memberId)
+    console.log("the member Id is: " + ID)
     const [MemberID, setMemberID] = useState(null);
     const [FirstName, setFirstName] = useState(null);
     const [LastName, setLastName] = useState(null);
@@ -32,17 +31,16 @@ const PatientDetails = () => {
     const [Vaccines, setVaccines] = useState(null);
     const [Photo, setPhoto] = useState(null);
     const [PositiveTestDate, setPositiveTestDate] = useState(null);
-
-
-    // Manufacturer
-    // VaccinationDate
+    const [VaccineDate, setVaccineDate] = useState('');
+    const [Manufacturer, setManufacturer] = useState('');
+    const [showAddVaccine, setShowAddVaccine] = useState(false);
     useEffect(() => {
         const fetchPatientData = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/user/${memberId}`);
+                const response = await fetch(`http://localhost:8080/api/user/${ID}`);
                 const data = await response.json();
                 console.log("the data is: ", JSON.stringify(data));
-                // JSON.stringify(data)
+                console.log("the data name f is: ", JSON.stringify(data[0].FirstName));
                 setMemberID(data[0].MemberID);
                 setFirstName(data[0].FirstName);
                 setLastName(data[0].LastName);
@@ -54,7 +52,7 @@ const PatientDetails = () => {
                 setMobilePhone(data[0].MobilePhone);
                 setCheckupDate(data[0].CheckupDate);
                 setRecoveryDate(data[0].RecoveryDate);
-                setVaccines(data[0].Vaccines);
+                setVaccines(data[0].vaccines);
                 setPhoto(data[0].Photo);
                 setPositiveTestDate(data[0].PositiveTestDate);
                 setIsLoading(false);
@@ -75,15 +73,18 @@ const PatientDetails = () => {
     const handleEdit = () => {
         debugger
         console.log("in handleEdit")
+
         setIsEditing(true);
     };
 
-    const edit = () => {
-        console.log("in edit")
-        //     setIsEditing(true);
-    }
+    const addVaccine = async () => {
+        console.log("in add vacciens function");
+
+        setShowAddVaccine(true);
+    };
 
     const editing = () => {
+        setShowAddVaccine(false);
         const user = {
             FirstName: FirstName,
             LastName: LastName,
@@ -100,7 +101,7 @@ const PatientDetails = () => {
 
     const editPatientData = async (updatedPatientData) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/user/${memberId}`, {
+            const response = await fetch(`http://localhost:8080/api/user/${ID}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -241,7 +242,7 @@ const PatientDetails = () => {
                             <>
                                 <label htmlFor="BirthDate">BirthDate:</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="BirthDate"
                                     value={BirthDate}
                                     onChange={(e) => setBirthDate(e.target.value)}
@@ -257,14 +258,16 @@ const PatientDetails = () => {
                             <>
                                 <label htmlFor="CheckupDate">Checkup Date:</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="CheckupDate"
                                     value={CheckupDate}
                                     onChange={(e) => setCheckupDate(e.target.value)}
                                 />
                             </>
                         ) : (
-                            <> <strong>Checkup Date:</strong> {CheckupDate}</>
+                            <>  {CheckupDate && (
+                                <> <strong>Checkup Date:</strong> {CheckupDate} </>
+                            )}</>
                         )}
                     </div>
                     <div className="details">
@@ -272,14 +275,16 @@ const PatientDetails = () => {
                             <>
                                 <label htmlFor="RecoveryDate">Recovery Date:</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="RecoveryDate"
                                     value={RecoveryDate}
                                     onChange={(e) => setRecoveryDate(e.target.value)}
                                 />
                             </>
                         ) : (
-                            <>  <strong>Recovery Date:</strong> {RecoveryDate}</>
+                            <>    {RecoveryDate && (
+                                <><strong>Recovery Date:</strong> {RecoveryDate} </>
+                            )}</>
                         )}
                     </div>
                     <div className="details">
@@ -287,14 +292,20 @@ const PatientDetails = () => {
                             <>
                                 <label htmlFor="PositiveTestDate">Positive Test Date:</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="PositiveTestDate"
                                     value={PositiveTestDate}
                                     onChange={(e) => setPositiveTestDate(e.target.value)}
                                 />
                             </>
                         ) : (
-                            <> <strong>Positive Test Date:</strong> {PositiveTestDate}</>
+                            <>
+                                {PositiveTestDate && (
+                                    <>
+                                        <strong>Positive Test Date:</strong> {PositiveTestDate}
+                                    </>
+                                )}
+                            </>
                         )}
                     </div>
                     <div className="details">
@@ -309,38 +320,80 @@ const PatientDetails = () => {
                                 />
                             </>
                         ) : (
-                            <> <strong>Profile Picture:</strong> <img src={Photo} alt="Photo" /></>
+                            <>
+                                {Photo && (
+                                    <>
+                                        <strong>Profile Picture:</strong>
+                                        <img src={Photo} alt="Photo" />
+                                    </>
+                                )}
+                            </>
                         )}
                     </div>
-
-                    {/* <h3>Vaccines</h3>
-                    <table className="vaccines-table">
-                        <thead>
-                            <tr>
-                                <th>Vaccine Number</th>
-                                <th>Vaccine Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Vaccines.map((vaccine, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{vaccine.date}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table> */}
+                    <div>
+                        {showAddVaccine && <AddVaccine MemberID={MemberID} />}
+                    </div>
+                    {Vaccines && Vaccines.manufacturer[0] && (
+                        <>
+                            <h3>Vaccines</h3>
+                            <table className="vaccines-table">
+                                <thead>
+                                    <tr>
+                                        <th>Vaccine Number</th>
+                                        <th>Vaccine Date</th>
+                                        <th>Manufacturer</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Vaccines.dateReceived.map((date, index) => (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{date}</td>
+                                            <td>{Vaccines.manufacturer[index]}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </>
+                    )}
                     <div className="details">
                         {isEditing ? (
                             <>
-                            <button type="button" onClick={editing}>finish</button>
+                                <button type="button" onClick={editing}>finish</button>
+                                <button type="button" onClick={addVaccine}>Add a vaccine</button>
+
                             </>
                         ) : (
                             <>
-                            <button type="button" onClick={handleEdit}>Edit</button>
+                                <button type="button" onClick={handleEdit}>Edit</button>
+
                             </>
                         )}
+
                     </div>
+                  
+                    {/* {isEditing && (
+                        <>
+                            <div className="details">
+                                <label htmlFor="VaccineDate">Vaccine Date:</label>
+                                <input
+                                    type="text"
+                                    id="VaccineDate"
+                                    value={VaccineDate}
+                                    onChange={(e) => setVaccineDate(e.target.value)}
+                                />
+                            </div>
+                            <div className="details">
+                                <label htmlFor="Manufacturer">Vaccine Manufacturer:</label>
+                                <input
+                                    type="text"
+                                    id="Manufacturer"
+                                    value={Manufacturer}
+                                    onChange={(e) => setManufacturer(e.target.value)}
+                                />
+                            </div>
+                        </>
+                    )} */}
                 </>
             )}
         </div>

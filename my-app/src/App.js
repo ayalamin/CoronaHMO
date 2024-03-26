@@ -5,7 +5,7 @@ import ViewMembers from "./components/ViewMembers";
 import RegistrationForm from "./components/RegistrationForm";
 import Modal from './components/Modal'
 import PatientDetails from './components/PatientDetails'
-
+import AddVaccine from './components/addVaccine'
 
 const App = () => {
   console.log("in App")
@@ -24,6 +24,7 @@ const App = () => {
           <Route  path= "/RegistrationForm" element={ <RegistrationForm/> }/>
           <Route  path= "/Modal" element={ <Modal/> }/>
           <Route  path= "/PatientDetails" element={ <PatientDetails/> }  />
+          <Route  path= "/AddVaccine" element={ <AddVaccine/> }  />
 
       </Routes>
     // </Router>

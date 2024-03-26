@@ -27,11 +27,39 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+
+router.get('/vaccines/count/:id', async (req, res) => {
+    try {
+        console.log("in get in vacciens, the id is: "+ req.params.id);
+        let result = await userServer.getCountVaccines(req.params.id);
+        res.send(result); 
+        console.log("in gett after send");
+    }
+    catch (e) {
+        console.error("the error is: " + e);
+        res.status(500).send({ error: "An error occurred while get the user." });
+
+    }
+});
+
 router.post('/', async (req, res) => {
     console.log(req.body);
     try {
         console.log("in userRouts-post "+ req.body.LastName);
         let result =   await userServer.addUser(req.body);
+        res.send(result);
+    }
+    catch (e) {
+        console.error("the error is: " + e);
+        res.status(500).send({ error: "An error occurred while adding the user." });
+
+    }
+});
+
+router.post('/vaccines', async (req, res) => {
+    try {
+        console.log("in userRouts-post "+ req.body.MemberID);
+        let result =   await userServer.addVaccine(req.body);
         res.send(result);
     }
     catch (e) {
