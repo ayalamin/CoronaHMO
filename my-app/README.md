@@ -39,32 +39,64 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+# CoronaHMO
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Schematic view of the information in the database:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Members: ID(PK), MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone.
+- Vaccinations: ID(PK), MemberID(FK), DateReceived, Manufacturer.
+- CovidCases: ID(PK), MemberID(FK), DateOfAttachment, DateOfRecovery.
+![alt text](image-12.png)
 
-### Code Splitting
+# How to refer between the different services:
+- Members: A service that allows creating, updating, reading and deleting members from the database.
+- Vaccinations: A service that allows creating, reading  vaccinations from the database.
+- CovidCases: A service that allows creating, reading  about the corona from the database.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Members:
+-In a GET request to a specific member, the request will be sent to the Members API and the information will be returned from it.
+-In a GET request for all members, the request will be sent to the AllMembers API and the information will be returned from it.
+-In a POST request from a member, the request will be sent to the Member API
+-In a DELETE request from a member, the request will be sent to the Member API
+-In a UPDATE request from a member, the request will be sent to the Member API
+- Vaccinations:
+-In a POST request from a Vaccinations, the request will be sent to the Vaccination API
+-In a GET request for  Vaccinations, the request will be sent to the Vaccination API and the information will be returned from it.
+- CovidCases:
+-In a POST request from a CovidCases, the request will be sent to the CovidCases API
+-In a GET request for  CovidCases, the request will be sent to the CovidCases API and the information will be returned from it.
+![alt text](image-13.png)
 
-### Analyzing the Bundle Size
+# CoronaHMO
+Run the project[client & server] with npm start and this is how you get to the home page. To add a user, click on the Sign up button. To see all members of the health fund, click any button. Display members of the health fund.
+![alt text](image-1.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+On the registration page, fill in all the details correctly and then click submit
+![alt text](image.png)
+![alt text](image-2.png)
 
-### Making a Progressive Web App
+On the display page for members of the health insurance fund there are many options
+![alt text](image-3.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Option to click on the delete button and thus delete the member of the health insurance fund and with it all the information about him in the database:
+![alt text](image-4.png)
 
-### Advanced Configuration
+Option to click all unvaccinated pacimets button and then it shows me the number of unvaccinated pacimets that exist in the database:
+![alt text](image-11.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Option to see more details of a specific member by clicking any more details takes me to the details page of that particular member
+![alt text](image-10.png)
 
-### Deployment
+When I click on the edit button, it brings me all the data in a form that can be edited
+![alt text](image-6.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+By clicking on the add vaccine button, the option of adding a vaccine opens up for me
+![alt text](image-7.png)
+![alt text](image-8.png)
 
-### `npm run build` fails to minify
+Clicking finish updates my data
+![alt text](image-9.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+

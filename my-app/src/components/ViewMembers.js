@@ -1,10 +1,14 @@
 import React, { useEffect, useState, } from 'react';
 import { Link } from 'react-router-dom';
 import '../CSS/ViewMembers.css';
+import LastMonthGraph from './lastMonthGraph'
+
 
 const ViewMembers = () => {
     const [names, setNames] = useState([]);
     const [amountOfPatients, setAmountOfPatients] = useState(null)
+    const [monthlyPatientChart, setmonthlyPatientChart] = useState(null)
+
 
     useEffect(() => {
         const fetchNamesData = async () => {
@@ -24,16 +28,20 @@ const ViewMembers = () => {
         try {
             const response = await fetch(`http://localhost:8080/api/user/vaccines/how`);
             const data = await response.json();
-            console.log("the number is: "+ JSON.stringify(data[0]))
-            const count = data[0]['COUNT(*)'];
-            setAmountOfPatients(count);
+            console.log("the number is: " + JSON.stringify(data[0]))
+            setAmountOfPatients(data[0].count);
+
         } catch (error) {
             console.error('Error:', error);
         }
     }
 
     const MonthlyPatientChart = async () => {
-
+        const response = await fetch(`http://localhost:8080/api/user/month/count`);
+        const lastMonthData = await response.json();
+        const jsonData = JSON.stringify(lastMonthData, null, 2);
+        console.log("the lastMonthData is: " + jsonData);
+        setmonthlyPatientChart(jsonData)
     }
 
     const deletePatientData = async (ID) => {
@@ -84,7 +92,7 @@ const ViewMembers = () => {
                             </td>
                             <td>
                                 <button onClick={() => deletePatientData(name.ID)}>Delete</button>
-                            
+
                             </td>
                         </tr>
 
@@ -94,13 +102,32 @@ const ViewMembers = () => {
                 </tbody>
             </table>
             <div>
-            <br/>
-            <button onClick={() => UnvaccinatedPatients()}>Unvaccinated patients</button>
-            <div>{amountOfPatients && <h5>HMO members who are not vaccinated:  {amountOfPatients}</h5> }</div>
-            <div>
-            <br/>
-            <button onClick={() => MonthlyPatientChart()}>Monthly patient chart</button>
-            </div>
+                <br />
+                <button onClick={() => UnvaccinatedPatients()}>Unvaccinated patients</button>
+                <div>{amountOfPatients && <h5>HMO members who are not vaccinated:  {amountOfPatients}</h5>}</div>
+                {/* <div>
+                    <br />
+                    <button onClick={() => MonthlyPatientChart()}>Monthly patient chart</button>
+                    <div>{monthlyPatientChart && <>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Active patients</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {monthlyPatientChart.forEach((item) => (
+                                    <tr key={item.day}>
+                                        <td>{item.day}</td>
+                                        <td>{item.active_patients}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </>}</div> */}
+                    {/* <div><LastMonthGraph/></div> */}
+                {/* </div> */}
             </div>
         </div>
     );

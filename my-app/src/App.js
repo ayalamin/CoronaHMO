@@ -7,6 +7,7 @@ import Modal from './components/Modal'
 import PatientDetails from './components/PatientDetails'
 import AddVaccine from './components/addVaccine'
 import DisplayImage from './components/displayImage'
+import LastMonthGraph from './components/lastMonthGraph'
 const App = () => {
   console.log("in App")
 
@@ -22,6 +23,8 @@ const App = () => {
           <Route  path= "/PatientDetails" element={ <PatientDetails/> }  />
           <Route  path= "/AddVaccine" element={ <AddVaccine/> }  />
           <Route  path= "/displayImage" element={ <DisplayImage/> }  />
+          <Route  path= "/lastMonthData" element={ <LastMonthGraph/> }  />
+
 
       </Routes>
     // </Router>

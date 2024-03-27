@@ -61,7 +61,7 @@ const AddVaccine = (props) => {
 
             console.log('Vaccine added successfully!');
             alert('Vaccine added successfully!')
-
+        
         } catch (error) {
             console.error('Error:', error);
         }

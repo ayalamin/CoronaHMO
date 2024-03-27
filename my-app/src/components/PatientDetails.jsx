@@ -22,14 +22,14 @@ const PatientDetails = () => {
     const [AddressCity, setCity] = useState(null);
     const [AddressStreet, setStreet] = useState(null);
     const [AddressNumber, setBuildingNumber] = useState(null);
-    const [BirthDate, setBirthDate] = useState(null);
+    const [BirthDate, setBirthDate] = useState('');
     const [Phone, setPhone] = useState(null);
     const [MobilePhone, setMobilePhone] = useState(null);
     const [CheckupDate, setCheckupDate] = useState(null);
-    const [RecoveryDate, setRecoveryDate] = useState(null);
+    const [RecoveryDate, setRecoveryDate] = useState('');
     const [Vaccines, setVaccines] = useState(null);
     const [Photo, setPhoto] = useState(null);
-    const [PositiveTestDate, setPositiveTestDate] = useState(null);
+    const [PositiveTestDate, setPositiveTestDate] = useState('');
     const [VaccineDate, setVaccineDate] = useState('');
     const [Manufacturer, setManufacturer] = useState('');
     const [showAddVaccine, setShowAddVaccine] = useState(false);
@@ -62,6 +62,7 @@ const PatientDetails = () => {
                 setIsLoading(false);
             }
         };
+        console.log("The Positive Test Date: " + PositiveTestDate);
         fetchPatientData();
         setIsEditing(false);
     }, []);
@@ -167,6 +168,8 @@ const PatientDetails = () => {
         } catch (error) {
             console.error('Error:', error);
         }
+
+        window.location.reload();
     };
 
     return (
@@ -295,6 +298,7 @@ const PatientDetails = () => {
                                     id="BirthDate"
                                     value={BirthDate}
                                     onChange={(e) => setBirthDate(e.target.value)}
+                                    readOnly={BirthDate == ''}
                                 />
                             </>
                         ) : (
@@ -310,6 +314,7 @@ const PatientDetails = () => {
                                     id="PositiveTestDate"
                                     value={PositiveTestDate}
                                     onChange={(e) => setPositiveTestDate(e.target.value)}
+                                    readOnly={PositiveTestDate == ''}
                                 />
                             </>
                         ) : (
@@ -331,6 +336,7 @@ const PatientDetails = () => {
                                     id="RecoveryDate"
                                     value={RecoveryDate}
                                     onChange={(e) => setRecoveryDate(e.target.value)}
+                                    readOnly={RecoveryDate == ''}
                                 />
                             </>
                         ) : (
