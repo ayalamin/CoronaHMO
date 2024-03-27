@@ -56,7 +56,7 @@ router.get('/vaccines/how', async (req, res) => {
     }
 });
 
-router.get('/count', async (req, res) => {
+router.get('/month/count', async (req, res) => {
     try {
         console.log("in month");
         console.log("The id received is:");

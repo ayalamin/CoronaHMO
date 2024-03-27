@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Twitter;
 
-internal class Triangular : Tower
+internal class Triangular 
 {
-    public Triangular()
-    {
-    }
     public void PrintSpace(int length, int hight)
     {
         if (length == 1)
@@ -27,6 +24,7 @@ internal class Triangular : Tower
             }
             Console.Write("***");
             Console.WriteLine();
+
             return;
         }
         int result = (hight - 2) / (length / 2 - 1);
@@ -71,14 +69,10 @@ internal class Triangular : Tower
         Console.WriteLine();
     }
 
-
     public void PrintScope(int length, int hight)
     {
-        int scope = length * hight / 2;
-        Print("The perimeter of the triangular is: ", scope);
-    }
-    public override void Print(string st, int outcome)
-    {
-        Console.WriteLine(st + outcome);
+        double res = Math.Sqrt(Math.Pow(hight, 2) + Math.Pow(length / 2, 2));
+        double scope = res * 2 + length;
+        Console.WriteLine("The perimeter of the triangular is: " + scope);
     }
 }

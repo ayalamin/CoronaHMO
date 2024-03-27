@@ -162,31 +162,36 @@ async function updateUser(userId, userData) {
         `;
         const result = await sql.query(query);
         console.log('User updated successfully');
+        const formattedDateOfAttachment = new Date(PositiveTestDate).toISOString().slice(0, 10);
+        const formattedRecoveryDate = new Date(RecoveryDate).toISOString().slice(0, 10);
+        
         if (PositiveTestDate) {
             if (RecoveryDate) {
+
                 query = `
-                INSERT INTO CoronaHMO.CovidCases (MemberID, DateOfAttachment , DateOfRecovery ) 
-                VALUES ('${MemberID}', '${PositiveTestDate}', '${RecoveryDate}')
+                INSERT INTO CoronaHMO.CovidCases (MemberID, DateOfAttachment, DateOfRecovery)
+                SELECT '${MemberID}', '${formattedDateOfAttachment}', '${formattedRecoveryDate}'
+                WHERE NOT EXISTS (
+                SELECT 1
+                FROM CoronaHMO.CovidCases
+                WHERE MemberID = '${MemberID}'
+                )
             `;
             }
             else {
+                    
                 query = `
-                INSERT INTO CoronaHMO.CovidCases (MemberID , DateOfAttachment ) 
-                VALUES ('${MemberID}', '${PositiveTestDate}')
+                INSERT INTO CoronaHMO.CovidCases (MemberID, DateOfAttachment)
+                SELECT '${MemberID}', '${formattedDateOfAttachment}'
+                WHERE NOT EXISTS (
+                SELECT 1
+                FROM CoronaHMO.CovidCases
+                WHERE MemberID = '${MemberID}'
+                )
             `;
             }
             await sql.query(query);
             console.log('CovidCases inserted successfully');
-        }
-        else{
-            if (RecoveryDate) {
-                query = `
-                UPDATE CoronaHMO.CovidCases 
-                SET 
-                DateOfRecovery = '${RecoveryDate}',
-                WHERE MemberID = ${MemberID}
-                `;
-            }
         }
         return result;
     } catch (err) {
