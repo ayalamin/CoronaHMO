@@ -113,6 +113,8 @@ By clicking on the add vaccine button, the option of adding a vaccine opens up f
 Clicking finish updates my data
 ![alt text](image-9.png)
 
-
+When I press a button Monthly Patient Chart
+Shows me how many active patients there were each day in the last month
+![alt text](image-15.png)
 
 
