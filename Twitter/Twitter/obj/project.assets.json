@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ayala\\OneDrive\\שולחן העבודה\\CoronaHMO\\Twitter\\Twitter\\Twitter.csproj",
+      "projectUniqueName": "C:\\Users\\Ayala\\Source\\Repos\\CoronaHMO\\Twitter\\Twitter\\Twitter.csproj",
       "projectName": "Twitter",
-      "projectPath": "C:\\Users\\Ayala\\OneDrive\\שולחן העבודה\\CoronaHMO\\Twitter\\Twitter\\Twitter.csproj",
+      "projectPath": "C:\\Users\\Ayala\\Source\\Repos\\CoronaHMO\\Twitter\\Twitter\\Twitter.csproj",
       "packagesPath": "C:\\Users\\Ayala\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ayala\\OneDrive\\שולחן העבודה\\CoronaHMO\\Twitter\\Twitter\\obj\\",
+      "outputPath": "C:\\Users\\Ayala\\Source\\Repos\\CoronaHMO\\Twitter\\Twitter\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ayala\\AppData\\Roaming\\NuGet\\NuGet.Config",

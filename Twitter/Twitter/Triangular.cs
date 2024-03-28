@@ -12,7 +12,7 @@ internal class Triangular
     {
         if (length == 1)
         {
-            Console.Write("*");
+            Console.WriteLine("*");
             return;
         }
         if (length == 3)
