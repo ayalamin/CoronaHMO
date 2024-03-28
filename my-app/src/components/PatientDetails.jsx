@@ -4,6 +4,7 @@ import '../CSS/PatientDetails.css';
 import { useLocation } from 'react-router-dom';
 import DisplayImage from './displayImage'
 import AddVaccine from './addVaccine';
+import moment from 'moment';
 
 const PatientDetails = () => {
 
@@ -22,16 +23,17 @@ const PatientDetails = () => {
     const [AddressCity, setCity] = useState(null);
     const [AddressStreet, setStreet] = useState(null);
     const [AddressNumber, setBuildingNumber] = useState(null);
-    const [BirthDate, setBirthDate] = useState('');
+    const [BirthDate, setBirthDate] = useState(null);
     const [Phone, setPhone] = useState(null);
     const [MobilePhone, setMobilePhone] = useState(null);
-    const [CheckupDate, setCheckupDate] = useState(null);
-    const [RecoveryDate, setRecoveryDate] = useState('');
+    const [RecoveryDate, setRecoveryDate] = useState(null);
     const [Vaccines, setVaccines] = useState(null);
     const [Photo, setPhoto] = useState(null);
-    const [PositiveTestDate, setPositiveTestDate] = useState('');
-    const [VaccineDate, setVaccineDate] = useState('');
-    const [Manufacturer, setManufacturer] = useState('');
+    const [PositiveTestDate, setPositiveTestDate] = useState(null);
+    const [formattedPositiveTestDate, setformattedPositiveTestDate] = useState(null);
+    const [formattedRecoveryDate, setformattedRecoveryDate] = useState(null);
+    const [formattedBirthDate, setformattedBirthDate] = useState(null);
+
     const [showAddVaccine, setShowAddVaccine] = useState(false);
     useEffect(() => {
         const fetchPatientData = async () => {
@@ -46,15 +48,34 @@ const PatientDetails = () => {
                 setCity(data[0].AddressCity);
                 setStreet(data[0].AddressStreet);
                 setBuildingNumber(data[0].AddressNumber);
+                if (data[0].BirthDate !== '') {
+                    const formattedBirthDate1 = moment(data[0].BirthDate).format("YYYY-MM-DD");
+                    setformattedBirthDate(formattedBirthDate1);
+                }
+                if (data[0].PositiveTestDate !== null) {
+                    const formattedPositiveTestDate1 = moment(data[0].PositiveTestDate).format("YYYY-MM-DD");
+                    setformattedPositiveTestDate(formattedPositiveTestDate1);
+
+                }
+                if (data[0].RecoveryDate !== null) {
+                    const formattedRecoveryDate1 = moment(data[0].RecoveryDate).format("YYYY-MM-DD");
+                    setformattedRecoveryDate(formattedRecoveryDate1);
+
+                }
                 setBirthDate(data[0].BirthDate);
+                setPositiveTestDate(data[0].PositiveTestDate);
+                setRecoveryDate(data[0].RecoveryDate);
                 setPhone(data[0].Phone);
                 setMobilePhone(data[0].MobilePhone);
-                setRecoveryDate(data[0].RecoveryDate);
                 setVaccines(data[0].vaccines);
                 setPhoto(data[0].Photo);
-                setPositiveTestDate(data[0].PositiveTestDate);
+
                 setIsLoading(false);
                 console.log("the FirstName is: ", data.FirstName);
+
+                console.log("the data ptdate: " + data[0].PositiveTestDate)
+
+
             } catch (error) {
                 console.error('Error:', error);
                 setError(error);
@@ -73,7 +94,10 @@ const PatientDetails = () => {
     const handleEdit = () => {
         debugger
         console.log("in handleEdit")
-
+        console.log("the f ptdate: " + formattedPositiveTestDate);
+        console.log("the  ptdate: " + PositiveTestDate);
+        console.log("the f rdate: " + formattedRecoveryDate);
+        console.log("the  rdate: " + RecoveryDate);
         setIsEditing(true);
     };
 
@@ -84,13 +108,36 @@ const PatientDetails = () => {
     };
 
     const editing = () => {
+        debugger
+
         console.log("in add editing");
+        console.log("the f ptdate: " + formattedPositiveTestDate);
+        console.log("the  ptdate: " + PositiveTestDate);
+        console.log("the f rdate: " + formattedRecoveryDate);
+        console.log("the  rdate: " + RecoveryDate);
+        // let isoFormattedRecoveryDate;
+        // let isoFormattedPositiveTestDate;
+        // if (RecoveryDate && !formattedRecoveryDate)
+        // {
+            
+        //     isoFormattedRecoveryDate = RecoveryDate.toISOString();
 
+        // }
+        // else{
+        //     isoFormattedRecoveryDate = RecoveryDate;
+        // }
+        // if (PositiveTestDate && !formattedPositiveTestDate)
+        // {
+        //     isoFormattedPositiveTestDate = PositiveTestDate.toISOString();
 
-        if (!/^[a-zA-Z]+$/.test(FirstName)) {
-            alert("First name must contain only letters.");
-            return;
-        }
+        // }
+        // else{
+        //     isoFormattedPositiveTestDate = PositiveTestDate;
+        // }
+            if (!/^[a-zA-Z]+$/.test(FirstName)) {
+                alert("First name must contain only letters.");
+                return;
+            }
 
         if (!/^[a-zA-Z]+$/.test(LastName)) {
             alert("Last name must contain only letters.");
@@ -131,6 +178,7 @@ const PatientDetails = () => {
             return;
         }
         setShowAddVaccine(false);
+
         const user = {
             MemberID: MemberID,
             FirstName: FirstName,
@@ -145,6 +193,8 @@ const PatientDetails = () => {
             PositiveTestDate: PositiveTestDate,
             RecoveryDate: RecoveryDate
         };
+        debugger
+        console.log("recoverydate is: " + RecoveryDate)
         editPatientData(user);
     };
 
@@ -294,15 +344,15 @@ const PatientDetails = () => {
                             <>
                                 <label htmlFor="BirthDate">BirthDate:</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="BirthDate"
-                                    value={BirthDate}
+                                    value={formattedBirthDate}
                                     onChange={(e) => setBirthDate(e.target.value)}
                                     readOnly={BirthDate == ''}
                                 />
                             </>
                         ) : (
-                            <><strong>BirthDate:</strong> {BirthDate}</>
+                            <><strong>BirthDate:</strong> {formattedBirthDate}</>
                         )}
                     </div>
                     <div className="details">
@@ -310,18 +360,18 @@ const PatientDetails = () => {
                             <>
                                 <label htmlFor="PositiveTestDate">Positive Test Date:</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="PositiveTestDate"
-                                    value={PositiveTestDate}
+                                    value={formattedPositiveTestDate}
                                     onChange={(e) => setPositiveTestDate(e.target.value)}
-                                    readOnly={PositiveTestDate == ''}
+                                    readOnly={PositiveTestDate !== null}
                                 />
                             </>
                         ) : (
                             <>
                                 {PositiveTestDate && (
                                     <>
-                                        <strong>Positive Test Date:</strong> {PositiveTestDate}
+                                        <strong>Positive Test Date:</strong> {formattedPositiveTestDate}
                                     </>
                                 )}
                             </>
@@ -332,16 +382,16 @@ const PatientDetails = () => {
                             <>
                                 <label htmlFor="RecoveryDate">Recovery Date:</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="RecoveryDate"
-                                    value={RecoveryDate}
+                                    value={formattedRecoveryDate}
                                     onChange={(e) => setRecoveryDate(e.target.value)}
-                                    readOnly={RecoveryDate == ''}
+                                    readOnly={RecoveryDate !== null}
                                 />
                             </>
                         ) : (
                             <>    {RecoveryDate && (
-                                <><strong>Recovery Date:</strong> {RecoveryDate} </>
+                                <><strong>Recovery Date:</strong> {formattedRecoveryDate} </>
                             )}</>
                         )}
                     </div>
@@ -420,28 +470,7 @@ const PatientDetails = () => {
 
                     </div>
 
-                    {/* {isEditing && (
-                        <>
-                            <div className="details">
-                                <label htmlFor="VaccineDate">Vaccine Date:</label>
-                                <input
-                                    type="text"
-                                    id="VaccineDate"
-                                    value={VaccineDate}
-                                    onChange={(e) => setVaccineDate(e.target.value)}
-                                />
-                            </div>
-                            <div className="details">
-                                <label htmlFor="Manufacturer">Vaccine Manufacturer:</label>
-                                <input
-                                    type="text"
-                                    id="Manufacturer"
-                                    value={Manufacturer}
-                                    onChange={(e) => setManufacturer(e.target.value)}
-                                />
-                            </div>
-                        </>
-                    )} */}
+
                 </>
             )}
         </div>

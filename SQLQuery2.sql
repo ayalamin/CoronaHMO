@@ -1,4 +1,8 @@
+ select * from CoronaHMO.Members
+  select * from CoronaHMO.Vaccinations
+
  select * from CoronaHMO.CovidCases
+
  USE CoronaHMO;
 
      INSERT INTO CoronaHMO.Members (MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo) 
@@ -17,7 +21,7 @@
             LEFT JOIN 
                 Vaccinations ON Members.MemberID = Vaccinations.MemberID
             WHERE 
-                Members.ID = 26;
+             --   Members.ID = 26;
         SELECT COUNT(*)
 FROM CoronaHMO.Members
 WHERE MemberID NOT IN (SELECT DISTINCT MemberID FROM CoronaHMO.Vaccinations);
@@ -27,3 +31,9 @@ WHERE MemberID NOT IN (SELECT DISTINCT MemberID FROM CoronaHMO.Vaccinations);
         WHERE DateOfAttachment BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW()
         GROUP BY DATE(DateOfAttachment)
         ORDER BY DATE(DateOfAttachment);
+        
+         SELECT DATE(DateOfAttachment) AS day, COUNT(*) AS active_patients
+        FROM CoronaHMO.CovidCases
+        WHERE DateOfAttachment BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW()
+        GROUP BY DATE(DateOfAttachment)
+        ORDER BY DATE(DateOfAttachment);AddressCity

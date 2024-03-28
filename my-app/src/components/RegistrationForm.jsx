@@ -219,15 +219,15 @@ if (mobilePhone.length !== 10 || !/^\d+$/.test(mobilePhone)) {
   
       <div className="form-group">
         <label htmlFor="firstName">First Name:</label>
-        <input type="text" id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+        <input type="text" id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value) } required/>
       </div>
       <div className="form-group">
         <label htmlFor="lastName">Last Name:</label>
-        <input type="text" id="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+        <input type="text" id="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} required/>
       </div>
       <div className="form-group">
         <label htmlFor="id">ID:</label>
-        <input type="text" id="id" value={id} onChange={(e) => setId(e.target.value)} />
+        <input type="text" id="id" value={id} onChange={(e) => setId(e.target.value)} required/>
       </div>
       <div className="form-group">
         <label htmlFor="city">City:</label>
@@ -243,7 +243,7 @@ if (mobilePhone.length !== 10 || !/^\d+$/.test(mobilePhone)) {
       </div>
       <div className="form-group">
         <label htmlFor="birthdate">Birthdate:</label>
-        <input type="date" id="birthdate" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} />
+        <input type="date" id="birthdate" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} required/>
       </div>
       <div className="form-group">
         <label htmlFor="phone">Phone:</label>

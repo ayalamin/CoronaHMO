@@ -145,7 +145,7 @@ async function updateUser(userId, userData) {
     try {
         const formattedBirthDate = new Date(BirthDate).toISOString().slice(0, 10);
 
-        console.log('in update in userserver ' + BirthDate);
+        console.log('in update in userserver ' + PositiveTestDate);
         let query = `
             UPDATE CoronaHMO.Members 
             SET 
@@ -162,27 +162,42 @@ async function updateUser(userId, userData) {
         `;
         const result = await sql.query(query);
         console.log('User updated successfully');
-        const formattedDateOfAttachment = new Date(PositiveTestDate).toISOString().slice(0, 10);
-        const formattedRecoveryDate = new Date(RecoveryDate).toISOString().slice(0, 10);
-        
+        // const formattedDateOfAttachment = new Date(PositiveTestDate).toISOString().slice(0, 10);
+        // const formattedRecoveryDate = new Date(RecoveryDate).toISOString().slice(0, 10);
+        console.log("in updeat covidcase: " + MemberID)
         if (PositiveTestDate) {
             if (RecoveryDate) {
-
+                console.log("in updeat covidcase RecoveryDate: "+ RecoveryDate)
                 query = `
                 INSERT INTO CoronaHMO.CovidCases (MemberID, DateOfAttachment, DateOfRecovery)
-                SELECT '${MemberID}', '${formattedDateOfAttachment}', '${formattedRecoveryDate}'
+                SELECT '${MemberID}', '${PositiveTestDate}', '${RecoveryDate}'
                 WHERE NOT EXISTS (
                 SELECT 1
                 FROM CoronaHMO.CovidCases
                 WHERE MemberID = '${MemberID}'
                 )
             `;
+            
+            query1 = `          
+                UPDATE CoronaHMO.CovidCases 
+                SET 
+                DateOfRecovery = '${RecoveryDate}'
+                WHERE MemberID = ${MemberID} 
+                AND EXISTS (
+                    SELECT 1
+                    FROM (
+                        SELECT *
+                        FROM CoronaHMO.CovidCases
+                    ) AS c
+                    WHERE c.MemberID = '${MemberID}'
+                    )
+            `;
             }
             else {
-                    
+                console.log("in updeat covidcase PositiveTestDate: "+ PositiveTestDate)
                 query = `
                 INSERT INTO CoronaHMO.CovidCases (MemberID, DateOfAttachment)
-                SELECT '${MemberID}', '${formattedDateOfAttachment}'
+                SELECT '${MemberID}', '${PositiveTestDate}'
                 WHERE NOT EXISTS (
                 SELECT 1
                 FROM CoronaHMO.CovidCases
@@ -191,7 +206,8 @@ async function updateUser(userId, userData) {
             `;
             }
             await sql.query(query);
-            console.log('CovidCases inserted successfully');
+            await sql.query(query1);
+            console.log('covidCases inserted successfully');
         }
         return result;
     } catch (err) {
