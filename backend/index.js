@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userRouts = require('./routs/userRouts')
+const vaccinesRouts = require('./routs/vaccinationRouts')
+
 const app = express();
 const port = 8080; 
 
@@ -22,6 +24,8 @@ app.use(
 
 // app.use(bodyParser.json());
 app.use('/api/user', userRouts);
+app.use('/api/vaccines', vaccinesRouts);
+
 
 // Connect to database then start the server
 try {

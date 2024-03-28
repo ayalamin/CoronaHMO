@@ -15,8 +15,6 @@ const PatientDetails = () => {
 
 
     const ID = location.state;
-    console.log("the state is: " + location.state)
-    console.log("the member Id is: " + ID)
     const [MemberID, setMemberID] = useState(null);
     const [FirstName, setFirstName] = useState(null);
     const [LastName, setLastName] = useState(null);
@@ -33,6 +31,8 @@ const PatientDetails = () => {
     const [formattedPositiveTestDate, setformattedPositiveTestDate] = useState(null);
     const [formattedRecoveryDate, setformattedRecoveryDate] = useState(null);
     const [formattedBirthDate, setformattedBirthDate] = useState(null);
+    const [ifPTDChange, setifPTDChange] = useState(false);
+    const [ifRecoveryDateChange, setifRecoveryDateChange] = useState(false);
 
     const [showAddVaccine, setShowAddVaccine] = useState(false);
     useEffect(() => {
@@ -40,8 +40,6 @@ const PatientDetails = () => {
             try {
                 const response = await fetch(`http://localhost:8080/api/user/${ID}`);
                 const data = await response.json();
-                console.log("the data is: ", JSON.stringify(data));
-                console.log("the data name f is: ", JSON.stringify(data[0].FirstName));
                 setMemberID(data[0].MemberID);
                 setFirstName(data[0].FirstName);
                 setLastName(data[0].LastName);
@@ -55,12 +53,10 @@ const PatientDetails = () => {
                 if (data[0].PositiveTestDate !== null) {
                     const formattedPositiveTestDate1 = moment(data[0].PositiveTestDate).format("YYYY-MM-DD");
                     setformattedPositiveTestDate(formattedPositiveTestDate1);
-
                 }
                 if (data[0].RecoveryDate !== null) {
                     const formattedRecoveryDate1 = moment(data[0].RecoveryDate).format("YYYY-MM-DD");
                     setformattedRecoveryDate(formattedRecoveryDate1);
-
                 }
                 setBirthDate(data[0].BirthDate);
                 setPositiveTestDate(data[0].PositiveTestDate);
@@ -69,13 +65,7 @@ const PatientDetails = () => {
                 setMobilePhone(data[0].MobilePhone);
                 setVaccines(data[0].vaccines);
                 setPhoto(data[0].Photo);
-
                 setIsLoading(false);
-                console.log("the FirstName is: ", data.FirstName);
-
-                console.log("the data ptdate: " + data[0].PositiveTestDate)
-
-
             } catch (error) {
                 console.error('Error:', error);
                 setError(error);
@@ -92,65 +82,26 @@ const PatientDetails = () => {
 
 
     const handleEdit = () => {
-        debugger
-        console.log("in handleEdit")
-        console.log("the f ptdate: " + formattedPositiveTestDate);
-        console.log("the  ptdate: " + PositiveTestDate);
-        console.log("the f rdate: " + formattedRecoveryDate);
-        console.log("the  rdate: " + RecoveryDate);
         setIsEditing(true);
     };
 
     const addVaccine = async () => {
-        console.log("in add vacciens function");
-
         setShowAddVaccine(true);
     };
 
     const editing = () => {
-        debugger
-
-        console.log("in add editing");
-        console.log("the f ptdate: " + formattedPositiveTestDate);
-        console.log("the  ptdate: " + PositiveTestDate);
-        console.log("the f rdate: " + formattedRecoveryDate);
-        console.log("the  rdate: " + RecoveryDate);
-        // let isoFormattedRecoveryDate;
-        // let isoFormattedPositiveTestDate;
-        // if (RecoveryDate && !formattedRecoveryDate)
-        // {
-            
-        //     isoFormattedRecoveryDate = RecoveryDate.toISOString();
-
-        // }
-        // else{
-        //     isoFormattedRecoveryDate = RecoveryDate;
-        // }
-        // if (PositiveTestDate && !formattedPositiveTestDate)
-        // {
-        //     isoFormattedPositiveTestDate = PositiveTestDate.toISOString();
-
-        // }
-        // else{
-        //     isoFormattedPositiveTestDate = PositiveTestDate;
-        // }
-            if (!/^[a-zA-Z]+$/.test(FirstName)) {
-                alert("First name must contain only letters.");
-                return;
-            }
-
+        if (!/^[a-zA-Z]+$/.test(FirstName)) {
+            alert("First name must contain only letters.");
+            return;
+        }
         if (!/^[a-zA-Z]+$/.test(LastName)) {
             alert("Last name must contain only letters.");
             return;
         }
-
-
-
         if (Phone.length < 7 || Phone.length > 9 || !/^\d+$/.test(Phone)) {
             alert("Phone number must contain between 7 and 9 digits.");
             return;
         }
-
         if (MobilePhone.length !== 10 || !/^\d+$/.test(MobilePhone)) {
             alert("Mobile phone number must contain exactly 10 digits.");
             return;
@@ -160,7 +111,6 @@ const PatientDetails = () => {
         const selectedDate = new Date(BirthDate);
         const recoveryDate = new Date(RecoveryDate);
         const positiveTestDate = new Date(PositiveTestDate);
-
         if (selectedDate > today) {
             alert("Birthdate must be before today's date.");
             return;
@@ -178,7 +128,6 @@ const PatientDetails = () => {
             return;
         }
         setShowAddVaccine(false);
-
         const user = {
             MemberID: MemberID,
             FirstName: FirstName,
@@ -191,16 +140,15 @@ const PatientDetails = () => {
             MobilePhone: MobilePhone,
             Photo: Photo,
             PositiveTestDate: PositiveTestDate,
-            RecoveryDate: RecoveryDate
+            RecoveryDate: RecoveryDate,
+            ifPTDChange: ifPTDChange,
+            ifRecoveryDateChange : ifRecoveryDateChange,
         };
-        debugger
-        console.log("recoverydate is: " + RecoveryDate)
         editPatientData(user);
     };
 
     const editPatientData = async (updatedPatientData) => {
         try {
-            console.log("in editPatientData")
             const response = await fetch(`http://localhost:8080/api/user/${ID}`, {
                 method: 'PUT',
                 headers: {
@@ -212,13 +160,11 @@ const PatientDetails = () => {
             if (!response.ok) {
                 throw new Error('Failed to update patient data');
             }
-            console.log('Patient data updated successfully!');
             setIsEditing(false);
             alert("The details have been successfully updated");
         } catch (error) {
             console.error('Error:', error);
         }
-
         window.location.reload();
     };
 
@@ -363,7 +309,10 @@ const PatientDetails = () => {
                                     type="date"
                                     id="PositiveTestDate"
                                     value={formattedPositiveTestDate}
-                                    onChange={(e) => setPositiveTestDate(e.target.value)}
+                                    onChange={(e) => {
+                                        setPositiveTestDate(e.target.value);
+                                        setifPTDChange(true);
+                                      }}
                                     readOnly={PositiveTestDate !== null}
                                 />
                             </>
@@ -385,7 +334,10 @@ const PatientDetails = () => {
                                     type="date"
                                     id="RecoveryDate"
                                     value={formattedRecoveryDate}
-                                    onChange={(e) => setRecoveryDate(e.target.value)}
+                                    onChange={(e) => {
+                                        setRecoveryDate(e.target.value);
+                                        setifRecoveryDateChange(true);
+                                      }}
                                     readOnly={RecoveryDate !== null}
                                 />
                             </>
@@ -459,18 +411,13 @@ const PatientDetails = () => {
                             <>
                                 <button type="button" onClick={editing}>finish</button>
                                 <button type="button" onClick={addVaccine}>Add a vaccine</button>
-
                             </>
                         ) : (
                             <>
                                 <button type="button" onClick={handleEdit}>Edit</button>
-
                             </>
                         )}
-
                     </div>
-
-
                 </>
             )}
         </div>

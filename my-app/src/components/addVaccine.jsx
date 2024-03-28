@@ -12,14 +12,14 @@ const AddVaccine = (props) => {
     const [Manufacturer, setManufacturer] = useState('');
     const [VaccineCount, setVaccineCount] = useState(0);
     const { MemberID } = props;
+
     useEffect(() => {
-        // Fetch vaccine count for the current user
         fetchVaccineCount();
     }, []);
 
     const fetchVaccineCount = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/user/vaccines/count/${MemberID}`);
+            const response = await fetch(`http://localhost:8080/api/vaccines/count/${MemberID}`);
             if (response.ok) {
                 const data = await response.json();
                 console.log("the data is " + JSON.stringify(data))
@@ -43,7 +43,7 @@ const AddVaccine = (props) => {
                 alert('You already have four vaccines. You cannot add more.');
                 return;
             }
-            const response = await fetch(`http://localhost:8080/api/user/vaccines`, {
+            const response = await fetch(`http://localhost:8080/api/vaccines`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -67,17 +67,13 @@ const AddVaccine = (props) => {
         }
     };
 
-
-
-
-
     return (
         <div className="patient-details">
             <>
                 <div className="details">
                     <label htmlFor="VaccineDate">Vaccine Date:</label>
                     <input
-                        type="text"
+                        type="date"
                         id="VaccineDate"
                         value={VaccineDate}
                         onChange={(e) => setVaccineDate(e.target.value)}

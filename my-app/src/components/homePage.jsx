@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
-import Modal from './Modal'
 
 const HomePage = () => {
   console.log("in homepage")
@@ -20,7 +19,6 @@ const HomePage = () => {
           Here will be information about the website services, who is behind the website, etc.
         </div>
         <div style={{ width: '30%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {/* <Modal /> */}
           <Link to="/RegistrationForm" style={{ textDecoration: 'none', color: 'white' }}>
             <button style={{ padding: '10px', border: 'none', borderRadius: '5px', backgroundColor: '#45a049', color: 'white' }}>Sign up
             </button>
