@@ -13,3 +13,18 @@ C:\Users\Ayala\OneDrive\שולחן העבודה\CoronaHMO\Twitter\Twitter\obj\De
 C:\Users\Ayala\OneDrive\שולחן העבודה\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\Twitter.pdb
 C:\Users\Ayala\OneDrive\שולחן העבודה\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\Twitter.genruntimeconfig.cache
 C:\Users\Ayala\OneDrive\שולחן העבודה\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\ref\Twitter.dll
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\bin\Debug\net6.0\Twitter.exe
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\bin\Debug\net6.0\Twitter.deps.json
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\bin\Debug\net6.0\Twitter.runtimeconfig.json
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\bin\Debug\net6.0\Twitter.dll
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\bin\Debug\net6.0\Twitter.pdb
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\Twitter.csproj.AssemblyReference.cache
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\Twitter.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\Twitter.AssemblyInfoInputs.cache
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\Twitter.AssemblyInfo.cs
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\Twitter.csproj.CoreCompileInputs.cache
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\Twitter.dll
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\refint\Twitter.dll
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\Twitter.pdb
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\Twitter.genruntimeconfig.cache
+C:\Users\Ayala\Source\Repos\CoronaHMO\Twitter\Twitter\obj\Debug\net6.0\ref\Twitter.dll
