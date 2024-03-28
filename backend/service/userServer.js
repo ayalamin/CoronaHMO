@@ -106,8 +106,14 @@ async function addUser(userData) {
 
 
         const query = `
-            INSERT INTO CoronaHMO.Members (MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo) 
-            VALUES ('${MemberID}', '${FirstName}', '${LastName}', '${AddressCity}', '${AddressStreet}', '${AddressNumber}', '${formattedBirthDate}', '${Phone}', '${MobilePhone}', '${Photo}')
+        INSERT INTO CoronaHMO.Members (MemberID, FirstName, LastName, AddressCity, AddressStreet, AddressNumber, BirthDate, Phone, MobilePhone, Photo) 
+SELECT '${MemberID}', '${FirstName}', '${LastName}', '${AddressCity}', '${AddressStreet}', '${AddressNumber}', '${formattedBirthDate}', '${Phone}', '${MobilePhone}', '${Photo}'
+FROM DUAL
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM CoronaHMO.Members
+    WHERE MemberID = '${MemberID}'
+)
         `;
 
         const result = await sql.query(query);
