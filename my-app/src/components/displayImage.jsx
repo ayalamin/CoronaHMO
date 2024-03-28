@@ -1,20 +1,23 @@
 import React from 'react';
+import { Buffer } from 'buffer';
 
-const DisplayImage = (props) => {
-    // יצירת מערך של נתוני הסדרה בינארית מה Buffer
-    const arrayBuffer = props;
-    const bytes = new Uint8Array(arrayBuffer);
-    const blob = new Blob([bytes], { type: 'image/jpeg/jpg' });
-
-    // יצירת כתובת URL לתמונה
+const DisplayImage = (prop) => {
+    console.log("the props is: ");
+    console.log(prop.props)
+    const imageData = prop.props;
+    const blob = new Blob([Buffer.from(imageData)]);
     const imageUrl = URL.createObjectURL(blob);
-    console.log("the URL is: " + imageUrl)
+    // const base64String = Buffer.from(imageData).toString('base64');
+    // const imageUrl = `data:image/jpeg;base64,${base64String}`;
+  
+    console.log("the imageUrl is: ");
+    console.log(imageUrl);
     return (
         <div>
-            {/* תצוגת התמונה */}
             <img src={imageUrl} alt="" />
         </div>
     );
 };
+
 
 export default DisplayImage;

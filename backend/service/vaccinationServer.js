@@ -49,9 +49,9 @@ async function getCountUnVaccines() {
 async function getMonth() {
     try {
         const result = await sql.query(`
-        SELECT DATE(DateOfAttachment) AS day, COUNT(*) AS active_patients
+        SELECT DATE_FORMAT(DateOfAttachment, '%Y-%m-%d') AS day, COUNT(*) AS active_patients
         FROM CoronaHMO.CovidCases
-        WHERE DateOfAttachment BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW()
+        WHERE DateOfAttachment BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE()
         GROUP BY DATE(DateOfAttachment)
         ORDER BY DATE(DateOfAttachment);
          `);

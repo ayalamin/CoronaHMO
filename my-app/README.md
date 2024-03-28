@@ -40,6 +40,21 @@ Instead, it will copy all the configuration files and the transitive dependencie
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
 # CoronaHMO
+- installation
+Make sure you have MYSQL installed on your computer. If not download it.
+
+Duplicate the repository
+
+Open your project in Vs Code, and do the following:
+Play a CD back end
+Run npm srstart
+Run cd my-app
+Run npm start
+
+Create a database named HMOcorona
+
+Download SQLQuery2.sql from github
+Open it in mySql and run the page
 
 # Schematic view of the information in the database:
 
@@ -65,7 +80,8 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 - CovidCases:
 -In a POST request from a CovidCases, the request will be sent to the CovidCases API
 -In a GET request for  CovidCases, the request will be sent to the CovidCases API and the information will be returned from it.
-![alt text](image-13.png)
+![alt text](image-14.png)
+
 
 # CoronaHMO
 Run the project[client & server] with npm start and this is how you get to the home page. To add a user, click on the Sign up button. To see all members of the health fund, click any button. Display members of the health fund.

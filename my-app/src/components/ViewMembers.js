@@ -36,9 +36,15 @@ const ViewMembers = () => {
     const MonthlyPatientChart = async () => {
         const response = await fetch(`http://localhost:8080/api/vaccines/month`);
         const lastMonthData = await response.json();
-        const jsonData = JSON.stringify(lastMonthData, null, 2);
-        console.log("the lastMonthData is: " + jsonData);
-        setmonthlyPatientChart(jsonData)
+        console.log("the lastMonthData is: ");
+        console.log( lastMonthData);
+        const patientArray = Object.values(lastMonthData);
+        console.log("the lastMonthData is: ");
+        console.log(  lastMonthData);
+        setmonthlyPatientChart(patientArray)
+        console.log("the patientArray is: ");
+        console.log(  patientArray[0].day);
+
     }
 
     const deletePatientData = async (ID) => {
@@ -92,7 +98,7 @@ const ViewMembers = () => {
                 <br />
                 <button onClick={() => UnvaccinatedPatients()}>Unvaccinated patients</button>
                 <div>{amountOfPatients && <h5>HMO members who are not vaccinated:  {amountOfPatients}</h5>}</div>
-                {/* <div>
+                <div>
                     <br />
                     <button onClick={() => MonthlyPatientChart()}>Monthly patient chart</button>
                     <div>{monthlyPatientChart && <>
@@ -104,7 +110,7 @@ const ViewMembers = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {monthlyPatientChart.forEach((item) => (
+                                {monthlyPatientChart.map((item) => (
                                     <tr key={item.day}>
                                         <td>{item.day}</td>
                                         <td>{item.active_patients}</td>
@@ -112,9 +118,9 @@ const ViewMembers = () => {
                                 ))}
                             </tbody>
                         </table>
-                    </>}</div> */}
+                    </>}</div> 
                     {/* <div><LastMonthGraph/></div> */}
-                {/* </div> */}
+                </div>
             </div>
         </div>
     );

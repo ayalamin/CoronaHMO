@@ -65,6 +65,9 @@ const PatientDetails = () => {
                 setMobilePhone(data[0].MobilePhone);
                 setVaccines(data[0].vaccines);
                 setPhoto(data[0].Photo);
+                console.log("the photo is: ");
+                console.log( data[0].Photo);
+
                 setIsLoading(false);
             } catch (error) {
                 console.error('Error:', error);
@@ -368,14 +371,8 @@ const PatientDetails = () => {
                             <>
                                 {Photo && (
                                     <>
-                                        {/* <strong>Profile Picture:</strong>
-                                        <img src={Photo} alt="Photo" /> */}
                                         <DisplayImage props={Photo.data} />
                                     </>
-
-
-
-
                                 )}
                             </>
                         )}
