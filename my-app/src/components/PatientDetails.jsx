@@ -355,7 +355,7 @@ const PatientDetails = () => {
                         {isEditing ? (
 
                             <>
-                                {Photo && (
+                                {/* {Photo && (
                                     <>
                                         <label htmlFor="ProfilePicture">Profile Picture:</label>
                                         <input
@@ -365,7 +365,7 @@ const PatientDetails = () => {
                                             onChange={(e) => setPhoto(e.target.value)}
                                         />
                                     </>
-                                )}
+                                )} */}
                             </>
                         ) : (
                             <>
